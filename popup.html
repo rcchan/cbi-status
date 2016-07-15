@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html style="height: 100%; width: 100%">
+  <head>
+    <script>
+      chrome.webRequest.onHeadersReceived.addListener(
+        function(info) {
+            var headers = info.responseHeaders;
+            for (var i=headers.length-1; i>=0; --i) {
+                var header = headers[i].name.toLowerCase();
+                if (header == 'x-frame-options' || header == 'frame-options') {
+                    headers.splice(i, 1); // Remove header
+                }
+            }
+            return {responseHeaders: headers};
+        },
+        {
+            urls: [ 'https://www.google.com/*' ], // Pattern to match all http(s) pages
+            types: [ 'sub_frame' ]
+        },
+        ['blocking', 'responseHeaders']
+      );
+    </script>
+  </head>
+  <body style="height: 100%; width: 100%; margin: 0; transform: scale(0.75); transform-origin: 0 0;">
+    <div style="position: fixed; right: 0; overflow: hidden; height:491px; width: 580px; transform: scale(.70); transform-origin: 0 0;">
+      <iframe src="https://www.google.com/search?q=weather+02114" style="height:642px; width: 692px; position: absolute; top: -160px; left: -120px; overflow: hidden;" scrolling="no"></iframe>
+    </div>
+    <iframe src="http://community-boating.org" style="height: 600px; width: 1067px;"></iframe>
+  </body>
+</html>
