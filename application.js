@@ -15,6 +15,17 @@
     })(flagColor) + '.png';
   };
 
+  var updateBadge = function () {
+    $.get('https://portal2.community-boating.org/pls/apex/CBI_PROD.FLAG_JS', {}, function(r) {
+      chrome.browserAction.setIcon({
+        path: flagImg(Function(r + 'return FLAG_COLOR;')()),
+      });
+    });
+    refreshLoop = setTimeout(updateBadge, 300000);
+  };
+
+  var refreshLoop;
+
   chrome.contextMenus.create({
     title: "CBI Website",
     contexts: ["browser_action"],
@@ -23,12 +34,14 @@
     }
   });
 
-  (function updateBadge() {
-    $.get('https://portal2.community-boating.org/pls/apex/CBI_PROD.FLAG_JS', {}, function(r) {
-      chrome.browserAction.setIcon({
-        path: flagImg(Function(r + 'return FLAG_COLOR;')()),
-      });
-    });
-    setTimeout(updateBadge, 300000);
-  })();
+  chrome.contextMenus.create({
+    title: "Refresh",
+    contexts: ["browser_action"],
+    onclick: function() {
+      clearTimeout(refreshLoop);
+      updateBadge();
+    }
+  });
+
+  updateBadge();
 })();
