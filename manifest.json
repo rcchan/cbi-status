@@ -13,7 +13,7 @@
    "name": "CBI Status",
    "permissions": [
       "contextMenus",
-      "https://*.community-boating.org/*",
+      "*://*.community-boating.org/*",
       "webRequest",
       "webRequestBlocking",
       "https://www.google.com/*"
