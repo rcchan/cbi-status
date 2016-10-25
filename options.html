@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html style="height: 100%; width: 100%">
+  <head>
+    <script src="constants.js"></script>
+  </head>
+  <body>
+    <div id="status" />
+    <form>
+      <label>Polling frequency (seconds): <input id="frequency" /></label>
+      <button id="save">Save</button>
+    </form>
+    <script>
+      // Saves options to chrome.storage
+      function save_options() {
+        var frequency = document.getElementById('frequency').value;
+        chrome.storage.sync.set({
+          frequency: frequency,
+        }, function() {
+          // Update status to let user know options were saved.
+          var status = document.getElementById('status');
+          status.textContent = 'Options saved.';
+          setTimeout(function() {
+            status.textContent = '';
+          }, 750);
+        });
+      }
+
+      // Restores select box and checkbox state using the preferences
+      // stored in chrome.storage.
+      function restore_options() {
+        chrome.storage.sync.get({
+          frequency: constants.DEFAULT_FREQUENCY,
+        }, function(items) {
+          document.getElementById('frequency').value = items.frequency;
+        });
+      }
+      document.addEventListener('DOMContentLoaded', restore_options);
+      document.getElementById('save').addEventListener('click', save_options);
+    </script>
+  </body>
+</html>
