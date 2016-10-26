@@ -1,21 +1,23 @@
 {
    "background": {
-      "scripts": [ "jquery-2.1.4.min.js", "application.js" ]
+      "scripts": [ "jquery-2.1.4.min.js", "constants.js", "application.js" ]
    },
    "browser_action": {
       "default_icon": "img/question-mark.jpg",
       "default_title": "CBI Status",
       "default_popup": "popup.html"
    },
-   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-3KCkyuyLajmkEYgFR376hKtkiNcJQzUIb/rtw8IRoCc='; object-src 'self'",
+   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-3KCkyuyLajmkEYgFR376hKtkiNcJQzUIb/rtw8IRoCc=' 'sha256-2ymdryQI74yXVE5cPpa9n/xfpkY6uohnWmTNbfJweQ8='; object-src 'self'",
    "description": "Shows CBI's flag status.",
    "manifest_version": 2,
    "name": "CBI Status",
+   "options_page": "options.html",
    "permissions": [
       "contextMenus",
-      "*://*.community-boating.org/*",
+      "storage",
       "webRequest",
       "webRequestBlocking",
+      "*://*.community-boating.org/*",
       "https://www.google.com/*"
    ],
    "version": "0.0.0.0"

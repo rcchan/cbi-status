@@ -21,7 +21,12 @@
         path: flagImg(Function(r + 'return FLAG_COLOR;')()),
       });
     });
-    refreshLoop = setTimeout(updateBadge, 300000);
+
+    chrome.storage.sync.get({
+      frequency: constants.DEFAULT_FREQUENCY,
+    }, function(items) {
+      refreshLoop = setTimeout(updateBadge, items.frequency * 1000);
+    });
   };
 
   var refreshLoop;
